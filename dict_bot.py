@@ -1,11 +1,9 @@
-# В google colab добавить: !pip install pyTelegramBotAPI
-
 import telebot
 from telebot import types
 import json
 import random
 
-bot = telebot.TeleBot(token='Вставьте токен', parse_mode='html')
+bot = telebot.TeleBot(token='telegramm token', parse_mode='html')
 
 with open('dict.json', "r", encoding="utf-8") as json_file:
     DEFINITIONS = json.load(json_file)
@@ -28,7 +26,7 @@ def message_handler(message):
     if definition is not None and message.text != "Случайный термин✨" and message.text != "Кто тебя создал?":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         item1 = types.KeyboardButton('Случайный термин✨')
-        item2 = types.KeyboardButton('Кто тебя создал?')
+        item2 = types.KeyboardButton('Инфо')
         markup.add(item1, item2)
         bot.send_message(message.chat.id, text=f'Определение:\n<code>{definition}</code>')
         bot.send_message(message.chat.id, text=f'Хочешь узнать что нибудь другое?', reply_markup=markup)
@@ -36,11 +34,8 @@ def message_handler(message):
     elif message.text == "Случайный термин✨":
         bot.send_message(message.chat.id, random.choice(listDEFINITIONS))
 
-    elif message.text == "Кто тебя создал?":
-        markup = types.InlineKeyboardMarkup()
-        button1 = types.InlineKeyboardButton('Сайт-визитка', url='https://nataliahood.ru/')
-        markup.add(button1)
-        bot.send_message(message.chat.id, 'Тебе правда интересно?☺ Переходи по ссылке!'.format(message.from_user), reply_markup=markup)
+    elif message.text == "Инфо":
+        bot.send_message(message.chat.id, 'Создано Рахатом, совместно с Абдураһманом и Нұрмұхамедом для проекта по русскому языку')
 
     elif definition is None and message.text != "Случайные термины✨" and message.text != "Кто тебя создал?":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -57,4 +52,5 @@ def main():
 
 
 if __name__ == '__main__':
+    print("Бот запущен")
     main()
